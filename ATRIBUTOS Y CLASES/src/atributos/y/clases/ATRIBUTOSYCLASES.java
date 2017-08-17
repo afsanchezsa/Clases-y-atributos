@@ -21,6 +21,9 @@ public class ATRIBUTOSYCLASES {
         String artista="",nombredisco="",nombrecancion="",genero="",imagen="",name="";
        boolean permanecer=true;
         Disco []discoss=new Disco[5];
+        for(int i=0;i<5;i++){
+        discoss[i]=new Disco();
+        }
         int contador,opcion,precioindividual,minutos,segundos,megabytes,calidad;
         for( contador=0;contador<5;contador++){
         discoss[contador]=new Disco();
@@ -47,16 +50,17 @@ public class ATRIBUTOSYCLASES {
            case 2:
                 System.out.println("inserte el nombre del disco");
                 nombredisco=entrada.next();
-                discoss[contador].nombre=nombredisco;
+                //discoss[contador].nombre=nombredisco;
                 System.out.println("inserte el nombre del artista");
                 artista=entrada.next();
-                discoss[contador].artista=artista;
+              //  discoss[contador].artista=artista;
                 System.out.println("inserte el genero del disco");
                 genero=entrada.next();
-                discoss[contador].genero=genero;
+                //discoss[contador].genero=genero;
                 System.out.println("inserte direccion de la imagen");
                 imagen=entrada.next();
-                discoss[contador].imagen=imagen;
+                //discoss[contador].imagen=imagen;
+                discoss[contador]=new Disco(nombredisco, artista, genero, imagen);
                 contador++;
                 break;
            case 3:
@@ -81,7 +85,12 @@ public class ATRIBUTOSYCLASES {
                   megabytes=entrada.nextInt();
                   System.out.println("inserte kb de calidad");
                  calidad=entrada.nextInt();
-                 discoss[i].insertarcancion(name, precioindividual, minutos, segundos, megabytes, calidad);
+                 
+                 for(int n=0;n<5;n++){
+                 if(discoss[i].canciones[n].nombre.equalsIgnoreCase("")){
+                 discoss[i].canciones[n]=new Cancion(name,precioindividual,minutos, segundos, megabytes, calidad);
+                 }
+                 }
                  
               }
               }
