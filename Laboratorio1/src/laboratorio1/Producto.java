@@ -53,5 +53,8 @@ public class Producto {
         return nombre;
     }
         
-    
+    public void CambiarPrecio(double precio){
+    this.PrecioVenta=precio;
+            
+    }
 }

@@ -31,6 +31,7 @@ private boolean cancelada;
         this.FormaPago = FormaPago;
         this.detalles=new ArrayList<>();
         this.proveedor=proveedor;
+        this.NombreProveedor=proveedor.getRazonSocial();
         this.FechaVencimiento=new Date(anovencimiento, mesvencimiento, diavencimiento);
         numfact++;
         this.pedidos=new TreeMap<>();

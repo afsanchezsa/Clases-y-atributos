@@ -6,6 +6,7 @@
 package laboratorio1;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 /**
  *
@@ -19,21 +20,24 @@ public class Nomina {
     this.empleados=new HashMap<>();
     
     }
+
+    
+    
     public double  LiquidacionEmpleado(int IdEmpleado){
     double liquidacion=0;
-    for(int i=0;i<empleados.size();i++){
-    if(empleados.get(i).getIdEmpleado()==IdEmpleado){
-    liquidacion=empleados.get(i).getSalario()*2;
-    
-    break;
-    }
-    }
+int id;    
+
+    for(Entry<Integer,Empleado> entrada:this.empleados.entrySet()){
+    liquidacion=(entrada.getValue().getSalario()*2)/12;
+    id=entrada.getKey();
+    if(id==IdEmpleado){
     return liquidacion;
     }
-    public double getLiquidacionTotal(){
+    }
+    /*public double getLiquidacionTotal(){
     for(int i=0;i<empleados.size();i++){
     this.LiquidacionTotal+=empleados.get(i).getSalario()*2;
-    }
+    }*/
            
     return this.LiquidacionTotal;
     }

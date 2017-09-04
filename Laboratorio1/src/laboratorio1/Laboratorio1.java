@@ -24,12 +24,12 @@ public class Laboratorio1 {
         // TODO code application logic here;
         boolean permanecer = true;
         String nombre, siono;
-        int nit, cantidad,numero;
+        int nit, cantidad, numero;
         int opcion;
         int IdEmpleado, IdCliente, ultimafactcomp, ultimafactven;
         String NombreEmpleado, NombreCliente, RazonSocial;
         double Salario;
-        
+
         Producto producto = null;
         Pedido pedido;
         Proveedor proveedor;
@@ -61,6 +61,10 @@ public class Laboratorio1 {
             System.out.println("7. imprimir inventario");
             System.out.println("8. Lo mas Vendido ");
             System.out.println("9.generar nomina");
+            System.out.println("10.deudas con proveedores");
+            System.out.println("11.Facturas de compra a vencer");
+            System.out.println("12. Costos de Venta");
+            System.out.println("13.Productos a Vencer");
             System.out.println("inserte el numero de la opcion");
             opcion = in.nextInt();
             switch (opcion) {
@@ -236,94 +240,153 @@ public class Laboratorio1 {
                     break;
                 case 7:
                     System.out.println("Producto \t\t  cantidad");
-                    ArrayList<String >sinrepetir=new ArrayList<>();
-                           
-                    for(int i=0;i<tienda.getInventario().productos.size();i++){
-                        if(!existe(tienda.getInventario().productos.get(i).getNombre(), sinrepetir))
-                     sinrepetir.add(tienda.getInventario().productos.get(i).getNombre());
+                    ArrayList<String> sinrepetir = new ArrayList<>();
+
+                    for (int i = 0; i < tienda.getInventario().productos.size(); i++) {
+                        if (!existe(tienda.getInventario().productos.get(i).getNombre(), sinrepetir)) {
+                            sinrepetir.add(tienda.getInventario().productos.get(i).getNombre());
+                        }
 //  System.out.println(sinrepetir.get(i)+" "+tienda.getInventario().ContarProducto(sinrepetir.get(i)));
                     }
-                    for(String cadena:sinrepetir){
-                        System.out.println(cadena+"\t\t"+tienda.getInventario().ContarProducto(cadena));
+                    for (String cadena : sinrepetir) {
+                        System.out.println(cadena + "\t\t" + tienda.getInventario().ContarProducto(cadena));
                     }
                     break;
                 case 8:
                     System.out.println("producto\t cantidad vendida");
-                    for(Entry<String,Integer>entry:tienda.lomascomprado().entrySet()){
-                     nombre=entry.getKey();
-                     numero=entry.getValue();
-                        System.out.println(nombre+"           "+numero);
-                        
-                    
-                    
-                        
+                    for (Entry<String, Integer> entry : tienda.lomascomprado().entrySet()) {
+                        nombre = entry.getKey();
+                        numero = entry.getValue();
+                        System.out.println(nombre + "           " + numero);
+
                     }
                     break;
-                    case 9:
+                case 9:
                     System.out.println("\t\t\tNomina");
-                        System.out.println("desea configurar los dias trabajados de algun empleado y/other?");
-                        siono=in.next();
-                        if(siono.equalsIgnoreCase("y")){
-                        seguir=true;
+                    System.out.println("desea configurar los dias trabajados de algun empleado y/other?");
+                    siono = in.next();
+                    if (siono.equalsIgnoreCase("y")) {
+                        seguir = true;
+                    } else {
+                        seguir = false;
+                    }
+                    ArrayList<Integer> idsempleados = new ArrayList<>();
+                    while (seguir) {
+                        System.out.println("inserte la identificacion del empleado al que desea configurar sus dias trabajados");
+                        IdEmpleado = in.nextInt();
+                        System.out.println("ingrese el numero de dias trabajados");
+                        dia = in.nextInt();
+                        tienda.getNomina().empleados.get(IdEmpleado).SetDiasTrabajados(dia);
+                        idsempleados.add(IdEmpleado);
+                        System.out.println("desea configurar los dias de otro empleado? y/other");
+                        if(in.next().equalsIgnoreCase("y")){
+                        
                         }else{
                         seguir=false;
                         }
-                        ArrayList<Integer> idsempleados=new ArrayList<>();
-                    while(seguir){
-                        System.out.println("inserte la identificacion del empleado al que desea configurar sus dias trabajados");
-                          IdEmpleado=in.nextInt();
-                          System.out.println("ingrese el numero de dias trabajados");
-                          dia=in.nextInt();
-                          tienda.getNomina().empleados.get(IdEmpleado).SetDiasTrabajados(dia);
-                          idsempleados.add(IdEmpleado);
-                    }    
-                    System.out.println("Cedula \t\t Empleado\t Salario\tSueldo a Pagar\tAbono a Liquidacion");
-                        
-                        for(Entry<Integer,Empleado>entrada:tienda.getNomina().empleados.entrySet()){
-                        numero=entrada.getKey();
-                        empleado=entrada.getValue();
-                            System.out.println(empleado.getIdEmpleado()+"  "+empleado.getNombreEmpleado()+" "+empleado.getSalario()+" "+empleado.CalcularSueldo(numero)+""+
-                            tienda.getNomina().LiquidacionEmpleado(numero)/12);
-                        }
-                        for(int i=0;i<idsempleados.size();i++){
-                        tienda.getNomina().empleados.get(idsempleados.get(i)).SetDiasTrabajados(30);
-                        }
-                        break;
-                    case 10:
-                        System.out.println("valor a pagar a los proveedores:");
-                        for(FacturaCompra f:tienda.getFacturascompra()){
-                            System.out.println("Nit\tProveedor\t valorFactura");
-                            if(f.getCancelada()==false){
-                            System.out.println(f.getIdProveedor()+"  "+f.getNombreProveedor()+"  "+f.getTotalFactura());
-                        }
-                        }break;
-                    case 11:
-                        System.out.println("Numero \t valor \t Fecha de Vencimiento\t Proveedor");
-                    for(FacturaCompra f:tienda.getFacturascompra()){
-                    if(diferenciafechas(new Date(), f.getFechaVencimiento())<10){
-                    System.out.println(f.getNumero()+" "+f.getTotalFactura()+" "f.getFechaVencimiento().getDay()+"/"+f.getFechaVencimiento().getMonth()+"/"+f.getFechaVencimiento().getYear()+" "+f.getNombreProveedor());
                     }
-                    }    
-            }
-            
+                    System.out.println("Cedula \t\t Empleado\t Salario\tSueldo a Pagar\tAbono a Liquidacion");
 
+                    for (Entry<Integer, Empleado> entrada : tienda.getNomina().empleados.entrySet()) {
+                        numero = entrada.getKey();
+                        empleado = entrada.getValue();
+                        System.out.println(empleado.getIdEmpleado() + "  " + empleado.getNombreEmpleado() + " " + empleado.getSalario() + " " + empleado.CalcularSueldo(numero) + ""
+                                + (tienda.getNomina().LiquidacionEmpleado(numero)));
+                    }
+                    for (int i = 0; i < idsempleados.size(); i++) {
+                        tienda.getNomina().empleados.get(idsempleados.get(i)).SetDiasTrabajados(30);
+                    }
+                    break;
+                case 10:
+                    System.out.println("valor a pagar a los proveedores:");
+                    for (FacturaCompra f : tienda.getFacturascompra()) {
+                        System.out.println("Nit\tProveedor\t valorFactura");
+                        if (f.getCancelada() == false) {
+                            System.out.println(f.getIdProveedor() + "  " + f.getNombreProveedor() + "  " + f.getTotalFactura());
+                        }
+                    }
+                    break;
+                case 11:
+                    System.out.println("Numero \t valor \t Fecha de Vencimiento\t Proveedor");
+                    for (FacturaCompra f : tienda.getFacturascompra()) {
+                        if (diferenciafechas(new Date(), f.getFechaVencimiento()) < 10) {
+                            //System.out.print(f.getNumero()+" "+f.getTotalFactura()+" "f.getFechaVencimiento().getDay()+"/"+f.getFechaVencimiento().getMonth()+"/"+f.getFechaVencimiento().getYear()+" "+f.getNombreProveedor());
+                            System.out.print(f.getNumero());
+                            System.out.print("         " + f.getTotalFactura());
+                            System.out.print("          " + f.getFechaVencimiento().getDay() + "/");
+                            System.out.print("           " + f.getFechaVencimiento().getMonth() + "/");
+                            System.out.print("          " + f.getFechaVencimiento().getYear());
+                            System.out.print("           " + f.getNombreProveedor()+"\n");
+                        }
+                    }
+                case 12:
+                    System.out.println("COSTOS DE VENTA:");
+                    System.out.println("Codigo\tProducto \t Costo de Venta");
+                    
+                    for(Producto p:tienda.getInventario().getProductos()){
+                        System.out.println(p.getCodigo()+"\t"+p.getNombre()+"\t"+p.getCosto());
+                    }
+                    break;
+                case 13:
+                    System.out.println("PRODUCTOS A VENCER");
+                    System.out.println("Codigo\t Producto\t Fecha de Vencimiento\t Precio de Venta");
+                    for(Producto p:tienda.getInventario().getProductos()){
+                    if(diferenciafechas(new Date(), p.getFechaVencimiento())<10){
+                        System.out.println(p.getCodigo()+"\t"+p.getNombre()+"\t"+p.getFechaVencimiento().getDate()+"/"+p.getFechaVencimiento().getMonth()+"\t"+p.getFechaVencimiento().getYear()+"\t"+p.getPrecioVenta());
+                    
+                    }
+                    }
+                    System.out.println("desea reducir el precio de algunos productos? y/other");
+                    if(in.next().equalsIgnoreCase("y")){
+                    for(Producto p:tienda.getInventario().getProductos()){
+                    if(diferenciafechas(new Date(), p.getFechaVencimiento())<10){
+                        System.out.println(p.getCodigo()+"\t"+p.getNombre()+"\t"+p.getFechaVencimiento().getDate()+"/"+p.getFechaVencimiento().getMonth()+"\t"+p.getFechaVencimiento().getYear()+"\t"+p.getPrecioVenta());
+                        System.out.println("desea reducir el precio de este producto? y/other");}
+                    if(in.next().equalsIgnoreCase("y")){
+                        System.out.println("ingrese el nuevo precio");
+                        
+                        precioVenta=in.nextDouble();
+                        p.CambiarPrecio(precioVenta);
+                    }
+                    }
+                    }else{
+                    System.out.println(" ");
+                    }
+                    
+                
+                
+                
+                    
+                    }
+                    
+            
+            
+            System.out.println("desea continuar en el programa ? y/other");
+            if(in.next().equalsIgnoreCase("y")){
+            
+            }else{
+            permanecer=false;
+            }
         } while (permanecer);
+        
 
     }
-public static boolean existe(String nombre,ArrayList<String>arreglo){
 
-    for(String s:arreglo){
-if(nombre.equalsIgnoreCase(s)){
-return true;
-}
-}
-return false;
-}
-public static int  diferenciafechas(Date fecha1,Date fecha2){
+    public static boolean existe(String nombre, ArrayList<String> arreglo) {
 
-long fec1=fecha1.getTime();
-long fec2=fecha2.getTime();
-long diferencia=fec2-fec1;
-return (int)diferencia;
-}
+        for (String s : arreglo) {
+            if (nombre.equalsIgnoreCase(s)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int diferenciafechas(Date fecha1, Date fecha2) {
+
+        long fec1 = fecha1.getTime();
+        long fec2 = fecha2.getTime();
+        long diferencia = fec2 - fec1;
+        return (int) diferencia;
+    }
 }
