@@ -24,6 +24,7 @@ private Proveedor proveedor;
 private Date FechaVencimiento;
 private TreeMap<Integer,Pedido>pedidos;
 private int numfact=0;
+private boolean cancelada;
     public FacturaCompra(int ano, int mes, int dia, int FormaPago,Proveedor proveedor,int anovencimiento,int mesvencimiento,int diavencimiento) {
         this.numero=numfact;
         this.Fecha = new Date(ano, mes, dia);
@@ -33,7 +34,7 @@ private int numfact=0;
         this.FechaVencimiento=new Date(anovencimiento, mesvencimiento, diavencimiento);
         numfact++;
         this.pedidos=new TreeMap<>();
-                
+        this.cancelada=false;
     }
    
 public Date getFecha() {
@@ -75,6 +76,34 @@ public Date getFecha() {
     public ArrayList<Detalle> getDetalles() {
         return detalles;
     }
+    public double getTotalFactura(){
+    double total=0;
+        for(Detalle d:this.detalles){
+    total+=d.CalcularSubtotalCompra();
+    }
+    return total;
+    }
+    public void cancelarfactura(){
+    this.cancelada=true;
+    }
+    public boolean getCancelada(){
+    return this.cancelada;
+    }
 
+    public int getNumero() {
+        return numero;
+    }
+
+    public Proveedor getProveedor() {
+        return proveedor;
+    }
+
+    public Date getFechaVencimiento() {
+        return FechaVencimiento;
+    }
+
+    public boolean isCancelada() {
+        return cancelada;
+    }
     
 }

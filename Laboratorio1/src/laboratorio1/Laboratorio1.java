@@ -29,10 +29,11 @@ public class Laboratorio1 {
         int IdEmpleado, IdCliente, ultimafactcomp, ultimafactven;
         String NombreEmpleado, NombreCliente, RazonSocial;
         double Salario;
-        Empleado empleado;
+        
         Producto producto = null;
         Pedido pedido;
         Proveedor proveedor;
+        Empleado empleado;
 
         double precioVenta;
         double costo;
@@ -59,6 +60,7 @@ public class Laboratorio1 {
             System.out.println("6.imprimir productos agotados");
             System.out.println("7. imprimir inventario");
             System.out.println("8. Lo mas Vendido ");
+            System.out.println("9.generar nomina");
             System.out.println("inserte el numero de la opcion");
             opcion = in.nextInt();
             switch (opcion) {
@@ -244,6 +246,7 @@ public class Laboratorio1 {
                     for(String cadena:sinrepetir){
                         System.out.println(cadena+"\t\t"+tienda.getInventario().ContarProducto(cadena));
                     }
+                    break;
                 case 8:
                     System.out.println("producto\t cantidad vendida");
                     for(Entry<String,Integer>entry:tienda.lomascomprado().entrySet()){
@@ -251,8 +254,56 @@ public class Laboratorio1 {
                      numero=entry.getValue();
                         System.out.println(nombre+"           "+numero);
                         
-                    }
                     
+                    
+                        
+                    }
+                    break;
+                    case 9:
+                    System.out.println("\t\t\tNomina");
+                        System.out.println("desea configurar los dias trabajados de algun empleado y/other?");
+                        siono=in.next();
+                        if(siono.equalsIgnoreCase("y")){
+                        seguir=true;
+                        }else{
+                        seguir=false;
+                        }
+                        ArrayList<Integer> idsempleados=new ArrayList<>();
+                    while(seguir){
+                        System.out.println("inserte la identificacion del empleado al que desea configurar sus dias trabajados");
+                          IdEmpleado=in.nextInt();
+                          System.out.println("ingrese el numero de dias trabajados");
+                          dia=in.nextInt();
+                          tienda.getNomina().empleados.get(IdEmpleado).SetDiasTrabajados(dia);
+                          idsempleados.add(IdEmpleado);
+                    }    
+                    System.out.println("Cedula \t\t Empleado\t Salario\tSueldo a Pagar\tAbono a Liquidacion");
+                        
+                        for(Entry<Integer,Empleado>entrada:tienda.getNomina().empleados.entrySet()){
+                        numero=entrada.getKey();
+                        empleado=entrada.getValue();
+                            System.out.println(empleado.getIdEmpleado()+"  "+empleado.getNombreEmpleado()+" "+empleado.getSalario()+" "+empleado.CalcularSueldo(numero)+""+
+                            tienda.getNomina().LiquidacionEmpleado(numero)/12);
+                        }
+                        for(int i=0;i<idsempleados.size();i++){
+                        tienda.getNomina().empleados.get(idsempleados.get(i)).SetDiasTrabajados(30);
+                        }
+                        break;
+                    case 10:
+                        System.out.println("valor a pagar a los proveedores:");
+                        for(FacturaCompra f:tienda.getFacturascompra()){
+                            System.out.println("Nit\tProveedor\t valorFactura");
+                            if(f.getCancelada()==false){
+                            System.out.println(f.getIdProveedor()+"  "+f.getNombreProveedor()+"  "+f.getTotalFactura());
+                        }
+                        }break;
+                    case 11:
+                        System.out.println("Numero \t valor \t Fecha de Vencimiento\t Proveedor");
+                    for(FacturaCompra f:tienda.getFacturascompra()){
+                    if(diferenciafechas(new Date(), f.getFechaVencimiento())<10){
+                    System.out.println(f.getNumero()+" "+f.getTotalFactura()+" "f.getFechaVencimiento().getDay()+"/"+f.getFechaVencimiento().getMonth()+"/"+f.getFechaVencimiento().getYear()+" "+f.getNombreProveedor());
+                    }
+                    }    
             }
             
 
@@ -267,5 +318,12 @@ return true;
 }
 }
 return false;
+}
+public static int  diferenciafechas(Date fecha1,Date fecha2){
+
+long fec1=fecha1.getTime();
+long fec2=fecha2.getTime();
+long diferencia=fec2-fec1;
+return (int)diferencia;
 }
 }

@@ -13,6 +13,7 @@ public class Empleado {
     private int IdEmpleado;
     private String NombreEmpleado;
     private double Salario;
+    int diastrabajados;
      
    
 
@@ -20,7 +21,7 @@ public class Empleado {
         this.IdEmpleado = IdEmpleado;
         this.NombreEmpleado = NombreEmpleado;
         this.Salario = Salario;
-        
+        this.diastrabajados=30;
     }
           
 
@@ -36,8 +37,12 @@ public class Empleado {
         return Salario;
     }
     
-    public double CalcularSueldo(int Horas){
-    double sueldo=(this.Salario/240)*Horas;
+    public double CalcularSueldo(int Idempleado){
+    double sueldo=(this.Salario/30)*diastrabajados;
     return sueldo;
     }
+    public void SetDiasTrabajados(int dias){
+    this.diastrabajados=dias;
+    }
+    
 }
