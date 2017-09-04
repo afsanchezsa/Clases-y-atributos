@@ -233,7 +233,7 @@ public class Laboratorio1 {
 
                     break;
                 case 7:
-                    System.out.println("Producto \t\t cantidad");
+                    System.out.println("Producto \t\t  cantidad");
                     ArrayList<String >sinrepetir=new ArrayList<>();
                            
                     for(int i=0;i<tienda.getInventario().productos.size();i++){
