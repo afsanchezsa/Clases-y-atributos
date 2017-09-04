@@ -249,7 +249,7 @@ public class Laboratorio1 {
                     for(Entry<String,Integer>entry:tienda.lomascomprado().entrySet()){
                      nombre=entry.getKey();
                      numero=entry.getValue();
-                        System.out.println(nombre+"          "+numero);
+                        System.out.println(nombre+"           "+numero);
                         
                     }
                     
