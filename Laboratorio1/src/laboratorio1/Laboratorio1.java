@@ -290,7 +290,7 @@ public class Laboratorio1 {
                     for (Entry<Integer, Empleado> entrada : tienda.getNomina().empleados.entrySet()) {
                         numero = entrada.getKey();
                         empleado = entrada.getValue();
-                        System.out.println(empleado.getIdEmpleado() + "  " + empleado.getNombreEmpleado() + " " + empleado.getSalario() + " " + empleado.CalcularSueldo(numero) + ""
+                        System.out.println(empleado.getIdEmpleado() + "          " + empleado.getNombreEmpleado() + "            " + empleado.getSalario() + "           " + empleado.CalcularSueldo(numero) + "        "
                                 + (tienda.getNomina().LiquidacionEmpleado(numero)));
                     }
                     for (int i = 0; i < idsempleados.size(); i++) {
