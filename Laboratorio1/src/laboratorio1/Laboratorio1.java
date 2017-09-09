@@ -134,7 +134,7 @@ public class Laboratorio1 {
                         proveedor = new Proveedor(nit, RazonSocial);
                         tienda.getProveedores().add(proveedor);
                     } else {
-                        proveedor = null;
+                        proveedor =  new Proveedor(nit, RazonSocial);
                     }
 
                     tienda.addFacturaCompra(ano, mes, dia, FormaPago, proveedor, anovencimiento, mesvencimiento, diavencimiento);
